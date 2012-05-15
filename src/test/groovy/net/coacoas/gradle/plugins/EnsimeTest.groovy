@@ -4,6 +4,11 @@ import org.gradle.api.Project;
 import org.gradle.testfixtures.ProjectBuilder;
 import org.junit.Test;
 
+/**
+ * Gradle ENSIME Plugin test
+ * 
+ * &copy; Bill Carlson 2012
+ */
 public class EnsimeTest {
 	@Test
 	public void testProject() {
@@ -26,6 +31,5 @@ public class EnsimeTest {
 
 		List<String> data = ensimeFile.text.split("\n")
 		assert(data.size > 0)
-//		assert(data.findAll {it.contains("runtime.jar")}.size == 2)
 	}
 }

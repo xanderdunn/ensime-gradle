@@ -5,41 +5,13 @@ import org.gradle.api.Plugin;
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
 
-
-interface EnsimeSetting {
-	def toSExp()
-}
-
-class EnsimeListSetting implements EnsimeSetting {
-	String keyword
-	List<String> values
-
-	@Override
-	def toSExp() {
-		return ":${keyword}\n(" +
-		values.collect{"\"${it}\""}.join("\n") + ")"
-	}
-}
-
-class EnsimeStringSetting implements EnsimeSetting {
-	String keyword
-	String value
-
-	@Override
-	def toSExp() {
-		return ":${keyword}\n\"${value}\""
-	}
-}
-
-class NestedEnsimeSetting implements EnsimeSetting {
-	String keyword
-	EnsimeSetting settings
-
-	@Override def toSExp() {
-		return "(:${keyword} ${settings.toSExpr()})"
-	}
-}
-
+/**
+ * The Ensime plugin creates an ensime task that allows the build script
+ * to create a .ensime project file that can be used for building 
+ * Scala projects in emacs, Sublime Text 2, or jEdit. 
+ *
+ * &copy; Bill Carlson 2012
+ */
 class Ensime implements Plugin<Project> {
 	public static final String TASK_NAME="ensime"
 	public Project project
