@@ -23,6 +23,14 @@ The plugin adds the 'ensime' task to the project to create a .ensime file in the
 
 Each time the task is executed, the .ensime file will be regenerated.
 
+## Building Instructions
+
+To build the software, just clone the repository and, from the root directory, type: 
+
+    ./gradlew install
+
+This will load it in your local maven repository and it can then be used as above. 
+
 ## Next Steps
 
 Unknown.  Let me know if you are interested in anything else!
