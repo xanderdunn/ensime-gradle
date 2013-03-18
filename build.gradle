@@ -4,14 +4,13 @@ apply plugin: 'idea'
 apply plugin: 'maven'
 
 group = 'net.coacoas'
-version = '0.1.0-SNAPSHOT'
+version = '0.1.1-SNAPSHOT'
 
 repositories {  mavenCentral() }
 
 dependencies {
-	compile gradleApi()
-	groovy "org.codehaus.groovy:groovy:1.7.10"
+	compile     gradleApi()
 	testCompile "junit:junit:4.+"
 }
 
-task wrapper(type: Wrapper) {  gradleVersion = '1.0-rc-3' }
+task wrapper(type: Wrapper) {  gradleVersion = '1.4' }
