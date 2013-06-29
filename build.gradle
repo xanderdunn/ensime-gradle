@@ -56,53 +56,52 @@ signing {
   sign configurations.archives
 }
 
+ext.sonatypeUrl = version.endsWith('SNAPSHOT') ? 
+  'https://oss.sonatype.org/content/repositories/snapshots/' :
+  'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+
 uploadArchives {
   repositories {
-    if (hasProperty("sonatype")) {
-      mavenDeployer {
-        beforeDeployment { MavenDeployment deployment -> 
-          signing.signPom(deployment) 
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> 
+        signing.signPom(deployment) 
+      }
+
+      println("Version: ${version}")
+      println("URL: ${sonatypeUrl}")
+
+      repository(url: sonatypeUrl) {
+        authentication(userName: sonatypeUsername, 
+        password: sonatypePassword)
+      }
+
+      pom.project {
+        name 'gradle-ensime'
+        packaging 'jar'
+        description 'Gradle-ENSIME is a Gradle plugin for creating ENSIME configuration files for Gradle Projects'
+        url 'http://www.github.com/coacoas/gradle-ensime'
+
+        scm {
+          url 'scm:git@github.com:coacoas/gradle-ensime.git'
+          connection 'scm:git@github.com:coacoas/gradle-ensime.git'
+          developerConnection 'scm:git@github.com:coacoas/gradle-ensime.git'
         }
 
-        def sonatypeUrl = version.endsWith('-SNAPHSOT') ? 
-          'https://oss.sonatype.org/content/repositories/snapshots/' : 
-          'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-
-        repository(url: sonatypeUrl) {
-          authentication(userName: sonatypeUsername, 
-          password: sonatypePassword)
+        licenses {
+          license {
+            name 'The Apache Software License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            distribution 'repo'
+          }
         }
 
-        pom.project {
-          name 'gradle-ensime'
-          packaging 'jar'
-          description 'Gradle-ENSIME is a Gradle plugin for creating ENSIME configuration files for Gradle Projects'
-          url 'http://www.github.com/coacoas/gradle-ensime'
-  
-          scm {
-            url 'scm:git@github.com:coacoas/gradle-ensime.git'
-            connection 'scm:git@github.com:coacoas/gradle-ensime.git'
-            developerConnection 'scm:git@github.com:coacoas/gradle-ensime.git'
-          }
-  
-          licenses {
-            license {
-              name 'The Apache Software License, Version 2.0'
-              url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-              distribution 'repo'
-            }
-          }
-
-          developers {
-            developer {
-              id 'coacoas'
-              name 'Bill Carlson'
-            }
+        developers {
+          developer {
+            id 'coacoas'
+            name 'Bill Carlson'
           }
         }
       }
-    } else { 
-      mavenLocal()
     }
   }
 }
