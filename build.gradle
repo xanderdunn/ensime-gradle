@@ -61,7 +61,7 @@ uploadArchives {
   repositories {
     mavenDeployer {
       beforeDeployment { MavenDeployment deployment -> 
-        signPom(deployment) 
+        signing.signPom(deployment) 
       }
 
       repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
