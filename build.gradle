@@ -56,23 +56,24 @@ signing {
   sign configurations.archives
 }
 
-ext.sonatypeUrl = version.endsWith('SNAPSHOT') ? 
-  'https://oss.sonatype.org/content/repositories/snapshots/' :
-  'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+def sonatypeURL() {
+  version.endsWith('SNAPSHOT') ? 
+    'https://oss.sonatype.org/content/repositories/snapshots/' :
+    'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+}
+
+uploadArchives.doFirst { 
+  repositories.mavenDeployer.repository(url: sonatypeURL()) { 
+    authentication(userName: sonatypeUsername, 
+    password: sonatypePassword)
+  }
+}
 
 uploadArchives {
   repositories {
     mavenDeployer {
       beforeDeployment { MavenDeployment deployment -> 
         signing.signPom(deployment) 
-      }
-
-      logger.info("Version: ${version}")
-      logger.info("URL: ${sonatypeUrl}")
-
-      repository(url: sonatypeUrl) {
-        authentication(userName: sonatypeUsername, 
-        password: sonatypePassword)
       }
 
       pom.project {
@@ -107,3 +108,11 @@ uploadArchives {
 }
 
 createReleaseTag.dependsOn uploadArchives
+
+release { 
+  failOnCommitNeeded = false
+  failOnPublishNeeded = false
+  failOnSnapshotDependencies = false
+  failOnUnversionedFiles = false
+  failOnUpdateNeeded	 = false
+}
