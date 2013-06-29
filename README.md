@@ -12,7 +12,7 @@ To use the plugin, make sure that the jar file is loaded in the buildscript clas
       repositories { mavenLocal() }
 
       dependencies {
-        classpath group: 'net.coacoas', name: 'gradle-ensime', version: '0.1.0-SNAPSHOT'
+        classpath group: 'net.coacoas.gradle', name: 'gradle-ensime', version: '0.1.6'
       }
     }
     apply plugin: 'ensime'
