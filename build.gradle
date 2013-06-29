@@ -1,18 +1,85 @@
+buildscript { 
+  repositories { 
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.github.townsfolk:gradle-release:1.2'
+  }
+}
+
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'maven'
+apply plugin: 'signing'
+apply plugin: 'release'
 
-group = 'net.coacoas'
-version = '0.1.6-SNAPSHOT'
+group = 'net.coacoas.gradle'
 
-archivesBaseName = 'gradle-ensime'
+archivesBaseName = 'ensime'
 
-repositories {  mavenCentral() }
-
-dependencies {
-	compile     gradleApi()
-	testCompile "junit:junit:4.+"
+repositories {  
+  mavenCentral() 
 }
 
-task wrapper(type: Wrapper) {  gradleVersion = '1.6' }
+dependencies {
+  compile     gradleApi()
+  testCompile "junit:junit:4.+"
+}
+
+task wrapper(type: Wrapper) { 
+  gradleVersion = '1.6' 
+}
+
+artifacts { 
+  archives jar 
+}
+
+signing { 
+  sign configurations.archives
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> 
+        signPom(deployment) 
+      }
+
+      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        authentication(userName: sonatypeUsername, 
+        password: sonatypePassword)
+      }
+
+      pom.project {
+        name 'ensime'
+        packaging 'jar'
+        description 'Gradle-ENSIME is a Gradle plugin for creating ENSIME configuration files for Gradle Projects'
+        url 'http://www.github.com/coacoas/gradle-ensime'
+  
+        scm {
+          url 'scm:git@github.com:coacoas/gradle-ensime.git'
+          connection 'scm:git@github.com:coacoas/gradle-ensime.git'
+          developerConnection 'scm:git@github.com:coacoas/gradle-ensime.git'
+        }
+
+        licenses {
+          license {
+            name 'The Apache Software License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            distribution 'repo'
+          }
+        }
+
+        developers {
+          developer {
+            id 'coacoas'
+            name 'Bill Carlson'
+          }
+        }
+      }
+    }
+  }
+}
+
+createReleaseTag.dependsOn uploadArchives
