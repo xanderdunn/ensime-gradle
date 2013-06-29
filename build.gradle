@@ -109,10 +109,3 @@ uploadArchives {
 
 createReleaseTag.dependsOn uploadArchives
 
-release { 
-  failOnCommitNeeded = false
-  failOnPublishNeeded = false
-  failOnSnapshotDependencies = false
-  failOnUnversionedFiles = false
-  failOnUpdateNeeded	 = false
-}
