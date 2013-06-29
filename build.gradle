@@ -67,8 +67,8 @@ uploadArchives {
         signing.signPom(deployment) 
       }
 
-      println("Version: ${version}")
-      println("URL: ${sonatypeUrl}")
+      logger.info("Version: ${version}")
+      logger.info("URL: ${sonatypeUrl}")
 
       repository(url: sonatypeUrl) {
         authentication(userName: sonatypeUsername, 
