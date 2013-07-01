@@ -83,9 +83,9 @@ uploadArchives {
         url 'http://www.github.com/coacoas/gradle-ensime'
 
         scm {
-          url 'scm:git@github.com:coacoas/gradle-ensime.git'
-          connection 'scm:git@github.com:coacoas/gradle-ensime.git'
-          developerConnection 'scm:git@github.com:coacoas/gradle-ensime.git'
+          url 'scm:git:http://www.github.com/coacoas/gradle-ensime'
+          connection 'scm:git:git://github.com/coacoas/gradle-ensime.git'
+          developerConnection 'scm:git:git://github.com:coacoas/gradle-ensime.git'
         }
 
         licenses {
