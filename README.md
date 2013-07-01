@@ -9,10 +9,10 @@ The gradle-ensime plugin creates .ensime project files for the ENhanced Scala In
 To use the plugin, make sure that the jar file is loaded in the buildscript classpath and the plugin is applied: 
 
     buildscript {
-      repositories { mavenLocal() }
+      repositories { mavenCentral() }
 
       dependencies {
-        classpath group: 'net.coacoas.gradle', name: 'gradle-ensime', version: '0.1.6'
+        classpath group: 'net.coacoas.gradle', name: 'gradle-ensime', version: '0.1.8'
       }
     }
     apply plugin: 'ensime'
@@ -22,14 +22,6 @@ The plugin adds the 'ensime' task to the project to create a .ensime file in the
     ./gradlew ensime
 
 Each time the task is executed, the .ensime file will be regenerated.
-
-## Building Instructions
-
-To build the software, just clone the repository and, from the root directory, type: 
-
-    ./gradlew install
-
-This will load it in your local maven repository and it can then be used as above. 
 
 ## Next Steps
 
