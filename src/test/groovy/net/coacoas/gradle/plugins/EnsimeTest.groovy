@@ -1,17 +1,13 @@
-package net.coacoas.gradle.plugins;
+package net.coacoas.gradle.plugins
 
-import org.gradle.BuildResult
-import org.gradle.GradleLauncher
-import org.gradle.StartParameter
 import org.gradle.api.Project
-import org.gradle.api.Task
-import org.gradle.api.execution.TaskExecutionListener
-import org.gradle.api.tasks.TaskState
 import org.gradle.testfixtures.ProjectBuilder
+import org.gradle.tooling.GradleConnector
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TemporaryFolder
+
+import static org.hamcrest.core.Is.is
+import static org.junit.Assert.assertThat
 
 /**
  * Gradle ENSIME Plugin test
@@ -23,23 +19,19 @@ public class EnsimeTest {
 	@Test
 	public void testTaskGetsAdded() { 
 		Project project = ProjectBuilder.builder().build()
-		project.apply plugin: 'ensime'
+		project.plugins.apply(Ensime)
 		Assert.assertNotNull(project.tasks['ensime'])
 	}
-	
-//	@Test  - Fix this later, add some good functional tests. 
-	// See https://github.com/eriwen/gradle-js-plugin/blob/master/src/test/groovy/com/eriwen/gradle/js/JsPluginFunctionalTest.groovy 
-	// for good example.
-	public void testProject() {
-		Project project = ProjectBuilder.builder().build()
-		project.apply plugin: 'ensime'
-		project.tasks[Ensime.TASK_NAME].execute()
-		
-		File ensimeFile = new File(project.projectDir, ".ensime")
-		assert(ensimeFile.exists())
-		ensimeFile.deleteOnExit();
 
-		List<String> data = ensimeFile.text.split("\n")
-		assert(data.size > 0)
-	}
+    @Test
+    public void testProjectWithEnsime() throws Exception {
+        def build = GradleConnector.
+                newConnector().
+                forProjectDirectory(new File("src/test/sample")).
+                connect().newBuild()
+        build.forTasks('clean', 'ensime').run()
+
+        def ensime = new File('src/test/sample/build/ensime/.ensime')
+        assertThat('an ensime file should be created at ' + ensime.absolutePath, ensime.exists(), is(true))
+    }
 }

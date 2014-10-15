@@ -3,6 +3,7 @@ package net.coacoas.gradle.plugins
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
+import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
 
@@ -33,6 +34,10 @@ class Ensime implements Plugin<Project> {
 		new EnsimeListSetting(keyword: setting, values: getClasspath(config))
 	}
 
+    List<String> getProjectDependencies() {
+        project.configurations.testRuntime.getAllDependencies().findAll { it instanceof ProjectDependency }.dependencyProject.collect { it.name }
+    }
+
 	List<String> getSourceSets() {
 		List<String> sets = project.sourceSets?.main?.java?.srcDirs.collect{it.absolutePath} +
 		project.sourceSets?.main?.resources?.srcDirs.collect{it.absolutePath} +
@@ -62,7 +67,7 @@ class Ensime implements Plugin<Project> {
 		classpathSetting('compile-deps', 'compile') +
 		classpathSetting('runtime-deps', 'runtime') +
 		classpathSetting('test-deps', 'testRuntime') +
-		new EnsimeListSetting(keyword: 'depends-on-modules', values: project.dependsOnProjects.collect { it.name }) +
+		new EnsimeListSetting(keyword: 'depends-on-modules', values: getProjectDependencies()) +
 		new EnsimeListSetting(keyword: 'source-roots', values: getSourceSets())
 		return settings.collect{it.toSExp()}.join("\n")
 	}
