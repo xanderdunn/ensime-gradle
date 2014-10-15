@@ -17,7 +17,7 @@ class EnsimeListSetting implements EnsimeSetting {
 	@Override
 	def toSExp() {
 		return ":${keyword}\n(" +
-		values.collect{"\"${it}\""}.join("\n") + ")"
+		values.collect{"\"${it.replace("\\", "\\\\")}\""}.join("\n") + ")"
 	}
 }
 
