@@ -47,6 +47,10 @@ artifacts {
   archives groovydocJar
 }
 
+test {
+    dependsOn jar
+}
+
 signing { 
   required { gradle.taskGraph.hasTask("uploadArchives") }
   sign configurations.archives
