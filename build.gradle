@@ -22,7 +22,7 @@ repositories {
 
 dependencies {
   compile     gradleApi()
-  testCompile "junit:junit:4.+"
+  testCompile "junit:junit:4.12"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
