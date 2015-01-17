@@ -24,7 +24,6 @@ ext {
 }
 
 ensime {
-    useSbt = "nil"
     targetFile = "${project.buildDir}/ensime_file"
     cacheDir = "${project.buildDir}/ensime_cache"
     javaHome = "/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home"

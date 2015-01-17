@@ -24,12 +24,15 @@ class Ensime implements Plugin<Project> {
   }
 }
 
+/**
+ * Define all the extension for the plugin.
+ */
 class EnsimeModel {
   // e.g. "<absolutePath>/.ensime"
   public String targetFile = ""
 
-  // can be "t" or "nil"
-  public String useSbt = ""
+  // can be >t< or >nil< (TODO - make this work)
+  // public String useSbt = ""
 
   // allow to set the vars in the .ensime file
   // (https://github.com/ensime/ensime-server/wiki/Example-Configuration-File)

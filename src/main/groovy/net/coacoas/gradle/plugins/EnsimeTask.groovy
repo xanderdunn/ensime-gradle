@@ -27,11 +27,13 @@ class EnsimeTask extends DefaultTask {
     // start to put the ensime file togther ...
     Map<String, Object> properties = new LinkedHashMap<String, Object>()
 
+    /* TODO - make use-sbt work (it is not a string)
     // use-sbt ...
     if(!project.extensions.ensime.useSbt.empty) {
       properties.put("use-sbt", project.extensions.ensime.useSbt)
       project.logger.debug("EnsimeTask: Writing use-sbt: ${project.extensions.ensime.useSbt}")
     }
+    */
 
     // root-dir ...
     assert !project.rootDir.absolutePath.empty : "root-dir must be not empty"
