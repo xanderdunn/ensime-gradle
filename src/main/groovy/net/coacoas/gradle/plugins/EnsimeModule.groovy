@@ -7,52 +7,72 @@ import org.gradle.api.artifacts.ProjectDependency
  * Converts a Project into a collection of settings representing a sub-module in Ensime.
  */
 class EnsimeModule {
+  private Project project
 
-    private Project project
+  EnsimeModule(Project project) {
+    this.project = project
+  }
 
-    EnsimeModule(Project project) {
-        this.project = project
-    }
+  List<String> getProjectDependencies() {
+    project.configurations.testRuntime.getAllDependencies().findAll {
+      it instanceof ProjectDependency
+    }.dependencyProject.collect { it.name }
+  }
 
-    List<String> getClasspath(String configurationName) {
-        project.logger.debug("Getting classpath from configuration ${configurationName}")
-        return project.configurations.getByName(configurationName).collect {
-            project.logger.debug(it.absolutePath)
-            it.absolutePath
-        }
-    }
+  List<String> getSourceSets() {
+    project.sourceSets.collect {
+      it.java.srcDirs.collect { it.absolutePath } +
+      it.scala.srcDirs.collect { it.absolutePath } +
+      it.resources.srcDirs.collect { it.absolutePath }
+    }.flatten()
+  }
 
-    List<String> getProjectDependencies() {
-        project.configurations.testRuntime.getAllDependencies().findAll {
-            it instanceof ProjectDependency
-        }.dependencyProject.collect { it.name }
-    }
+  Map<String, Object> settings() {
+    Map<String, Object> properties = new LinkedHashMap<String, Object>()
 
-    List<String> getSourceSets() {
-        List<String> sets = project.sourceSets.main.java.srcDirs.collect { it.absolutePath } +
-                project.sourceSets.main.resources.srcDirs.collect { it.absolutePath } +
-                project.sourceSets.test.resources.srcDirs.collect { it.absolutePath } +
-                project.sourceSets.test.java.srcDirs.collect { it.absolutePath }
+    // name ...
+    assert !project.name.empty : "project name cannot be empty"
+    properties.put("name", project.name)
+    project.logger.debug("EnsimeModule: Writing name: ${project.name}")
 
-        if (project.sourceSets.main.hasProperty('scala')) {
-            sets += project.sourceSets.main.scala.srcDirs.collect { it.absolutePath } +
-                    project.sourceSets.test.scala.srcDirs.collect { it.absolutePath }
-        }
+    // source-roots ...
+    List<String> sourceRoots = getSourceSets()
+    properties.put("source-roots", sourceRoots)
+    project.logger.debug("EnsimeModule: Writing source-roots: ${sourceRoots}")
 
-        sets
-    }
+    // target ...
+    assert !project.sourceSets.main.output.classesDir.absolutePath.empty : "target cannot be empty"
+    properties.put("target", project.sourceSets.main.output.classesDir.absolutePath)
+    project.logger.debug("EnsimeModule: Writing target: ${project.sourceSets.main.output.classesDir.absolutePath}")
 
-    Map<String, Object> settings() {
-        return [
-                'name'              : project.name,
-                'target'            : project.sourceSets.main.output.classesDir.absolutePath,
-                'test-target'       : project.sourceSets.test.output.classesDir.absolutePath,
-                'compile-deps'      : getClasspath('compile'),
-                'runtime-deps'      : getClasspath('runtime'),
-                'test-deps'         : getClasspath('testRuntime'),
-                'depends-on-modules': getProjectDependencies(),
-                'source-roots'      : getSourceSets()
-        ]
-    }
+    // test-target ...
+    assert !project.sourceSets.test.output.classesDir.absolutePath.empty : "test-target cannot be empty"
+    properties.put("test-target", project.sourceSets.test.output.classesDir.absolutePath)
+    project.logger.debug("EnsimeModule: Writing test-target: ${project.sourceSets.test.output.classesDir.absolutePath}")
 
+    // depends-on-modules ...
+    List<String> dependencies = getProjectDependencies()
+    properties.put("depends-on-modules", dependencies)
+    project.logger.debug("EnsimeModule: Writing depends-on-modules: ${dependencies}")
+
+    // compile-deps ...
+    List<String> classpath = project.sourceSets.main.compileClasspath.collect { it.absolutePath }
+    properties.put("compile-deps", classpath)
+    project.logger.debug("EnsimeModule: Writing compile-deps: ${classpath}")
+
+    // runtime-deps ...
+    classpath = project.sourceSets.main.runtimeClasspath.collect { it.absolutePath }
+    properties.put("runtime-deps", classpath)
+    project.logger.debug("EnsimeModule: Writing runtime-deps: ${classpath}")
+
+    // test-deps ...
+    classpath = project.sourceSets.test.compileClasspath.collect { it.absolutePath }
+    properties.put("test-deps", classpath)
+    project.logger.debug("EnsimeModule: Writing test-deps: ${classpath}")
+
+    // reference-source-roots ...
+    // right now this can only be configure in/through EnsimeTask
+
+    properties
+  }
 }
