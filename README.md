@@ -6,7 +6,7 @@ The gradle-ensime plugin creates [.ensime project files](https://github.com/ensi
 
 ## Usage
 
-For it to work the build.gradle file either needs to have the [`scala`](http://www.gradle.org/docs/current/userguide/scala_plugin.html) plugin or the [`gradle-android-scala-plugin`](https://github.com/saturday06/gradle-android-scala-plugin) to be configured.
+For it to work the build.gradle file either needs to have the [`scala`](http://www.gradle.org/docs/current/userguide/scala_plugin.html) plugin or the [`gradle-android-scala-plugin`](https://github.com/saturday06/gradle-android-scala-plugin) to be configured (the later is WIP).
 
 A working android example can be found [here](https://github.com/rolandtritsch/scala-android-ui-samples).
 
@@ -26,6 +26,8 @@ The plugin adds the 'ensime' task to the project to create a .ensime file in the
     ./gradlew ensime
 
 Each time the task is executed, the .ensime file will be regenerated.
+
+To see the plugin in action you can also clone this repo and then run `gradle build` to build the plugin and then `cd src/test/sample/scala` and run `gradle clean build ensime`.
 
 ## Next Steps
 
