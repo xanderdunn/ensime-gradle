@@ -9,12 +9,15 @@ import org.gradle.api.tasks.TaskAction
  * Implementation of the 'ensime' task.
  */
 class EnsimeTask extends DefaultTask {
+  private static final String DEF_ENSIME_FILE = "/.ensime"
+  private static final String DEF_ENSIME_CACHE = "/.ensime_cache.d"
+
   @TaskAction
   void writeFile() {
     // processing targetFile ...
     String ensimeFileName = (
       project.extensions.ensime.targetFile.empty ?
-      project.projectDir.absolutePath + "/.ensime" :
+      project.projectDir.absolutePath + DEF_ENSIME_FILE :
       project.extensions.ensime.targetFile
     )
     File ensimeFile = new File(ensimeFileName)
@@ -43,7 +46,7 @@ class EnsimeTask extends DefaultTask {
     // cache-dir ...
     String ensimeCacheDir = (
       project.extensions.ensime.cacheDir.empty ?
-      project.projectDir.absolutePath + "/.ensime_cache.d" :
+      project.projectDir.absolutePath + DEF_ENSIME_CACHE :
       project.extensions.ensime.cacheDir
     )
     File ensimeCacheDirFile = new File(ensimeCacheDir)
@@ -90,7 +93,7 @@ class EnsimeTask extends DefaultTask {
 
     // process subprojects ...
     properties.put("subprojects", project.allprojects
-      .grep { it.plugins.hasPlugin(JavaPlugin) }
+      .grep { it.plugins.hasPlugin("scala") }
       .collect { new EnsimeModule(it).settings() }
     )
 

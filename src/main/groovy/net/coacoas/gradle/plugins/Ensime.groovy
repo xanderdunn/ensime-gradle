@@ -31,7 +31,8 @@ class EnsimeModel {
   // e.g. "<absolutePath>/.ensime"
   public String targetFile = ""
 
-  // can be >t< or >nil< (TODO - make this work)
+  // can be >t< or >nil<
+  // TODO - make :use-sbt work (this is not a string))
   // public String useSbt = ""
 
   // allow to set the vars in the .ensime file
@@ -44,4 +45,7 @@ class EnsimeModel {
   public String scalaVersion = ""
   public List<String> compilerArgs = []
   // public formatingPrefs = [:]
+  // TODO - implement :formating-prefs
+
+  // TODO - check ensime-server source code for other conv vars like :project-package
 }

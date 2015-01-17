@@ -4,7 +4,7 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.ProjectDependency
 
 /**
- * Converts a Project into a collection of settings representing a sub-module in Ensime.
+ * Converts a Project into a collection of settings representing a subproject in Ensime.
  */
 class EnsimeModule {
   private Project project
