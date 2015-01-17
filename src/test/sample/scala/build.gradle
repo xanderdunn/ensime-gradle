@@ -17,10 +17,6 @@ apply plugin: "ensime"
 
 ext {
     scalaLibraryVersion = "2.11.4"
-    // NOTE: Please make this point to the scala src zip (download from
-    // https://github.com/scala/scala/archive/v2.11.4.tar.gz and repackage
-    // as zip)
-    scalaSourceZip = "/Downloads/scala-${scalaLibraryVersion}-src.zip"
 }
 
 ensime {
@@ -28,7 +24,7 @@ ensime {
     cacheDir = "${project.buildDir}/ensime_cache"
     javaHome = "/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home"
     javaFlags = ["-Xms1024m", "-Xmx1024m", "-XX:MaxPermSize=256m"]
-    referenceSourceRoots = [javaHome + "/src.zip", scalaSourceZip]
+    referenceSourceRoots = [javaHome + "/src.zip"]
     scalaVersion = scalaLibraryVersion
     compilerArgs = ["-feature", "-deprecation"]
 }
