@@ -29,11 +29,27 @@ public class EnsimeTest {
       .newConnector()
       .forProjectDirectory(new File("src/test/sample/scala"))
       .connect().newBuild()
-    build.forTasks('clean', 'ensime').run()
+    build.forTasks("clean", "ensime").run()
 
-    def ensime = new File('src/test/sample/scala/build/ensime_file')
+    def ensime = new File("src/test/sample/scala/build/ensime_file")
     assertThat(
-      'an ensime file should be created at ' + ensime.absolutePath,
+      "an ensime file should be created at ${ensime.absolutePath}",
+      ensime.exists(),
+      is(true)
+    )
+  }
+
+  @Test
+  public void testAndroidProjectWithEnsime() throws Exception {
+    def build = GradleConnector
+      .newConnector()
+      .forProjectDirectory(new File("src/test/sample/android/ActionBarCompat-Basic"))
+      .connect().newBuild()
+    build.forTasks("clean", "ensime").run()
+
+    def ensime = new File("src/test/sample/android/ActionBarCompat-Basic/Application/.ensime")
+    assertThat(
+      "an ensime file should be created at ${ensime.absolutePath}",
       ensime.exists(),
       is(true)
     )
