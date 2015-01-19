@@ -2,7 +2,7 @@
 
 ## Purposes
 
-The gradle-ensime plugin creates .ensime project files for the ENhanced Scala Integration Mode for Emacs, written by Aemon Cannon (https://github.com/aemoncannon/ensime). 
+The gradle-ensime plugin creates .ensime project files for the ENhanced Scala Integration Mode for Emacs, written by Aemon Cannon (https://github.com/ensime/ensime-server). 
 
 ## Usage
 
