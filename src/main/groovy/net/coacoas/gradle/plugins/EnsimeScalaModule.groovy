@@ -4,12 +4,12 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.ProjectDependency
 
 /**
- * Converts a Project into a collection of settings representing a subproject in Ensime.
+ * Converts a Scala project into a collection of settings representing a subproject in Ensime.
  */
-class EnsimeModule {
+class EnsimeScalaModule {
   private Project project
 
-  EnsimeModule(Project project) {
+  EnsimeScalaModule(Project project) {
     this.project = project
   }
 

@@ -92,10 +92,15 @@ class EnsimeTask extends DefaultTask {
     }
 
     // process subprojects ...
-    properties.put("subprojects", project.allprojects
-      .grep { it.plugins.hasPlugin("scala") }
-      .collect { new EnsimeModule(it).settings() }
-    )
+    properties.put("subprojects", project.allprojects.collect {
+      if(it.plugins.hasPlugin("scala")) {
+        new EnsimeScalaModule(it).settings()
+      } else if(it.plugins.hasPlugin("jp.leafytree.android-scala")) {
+        new EnsimeAndroidModule(it).settings()
+      } else {
+        assert false : "Either the Scala or the Android plugin needs to be configured!"
+      }
+    })
 
     // write and format the file ...
     ensimeFile.write(SExp.format(properties))
