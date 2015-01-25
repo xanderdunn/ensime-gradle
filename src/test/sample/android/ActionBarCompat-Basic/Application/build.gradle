@@ -86,10 +86,33 @@ android {
 }
 
 task debugme << {
+  println("Project: ${name}")
+  println(">> BuildDir: ${buildDir.absolutePath}")
+  println(">> CompileDebugClasspath: ${getTasksByName('compileDebugScala', false).toList().first().classpath.asPath}")
+  println(">> CompileReleaseClasspath: ${getTasksByName('compileReleaseScala', false).toList().first().classpath.asPath}")
+  println(">> CompileTestClasspath: ${getTasksByName('compileDebugTestScala', false).toList().first().classpath.asPath}")
+
   android.sourceSets.each {
     println("SourceSet: ${it.name}")
+    println(">> CompileConfigurationName: ${it.compileConfigurationName}")
+    // println(">> OutputDir: ${configurations.getByName(it.compileConfigurationName).}")
   }
+  // println("SourceSet: Main: ClassName: ${android.sourceSets.main.class.name}")
+
   configurations.each {
     println("Configuration: ${it.name}")
+    it.allArtifacts.each {
+      println (">> Artifact: ${it.file.absolutePath}")
+    }
+  }
+
+  tasks.each {
+    println("Tasks: ${it.name}")
+    println(">> ClassName: ${it.class.name}")
+    if(it instanceof org.gradle.api.tasks.scala.ScalaCompile) {
+      println(">> ClassPath: ${it.classpath.asPath}")
+      println(">> ScalaClasspath: ${it.scalaClasspath.asPath}")
+      println(">> DestinationDir: ${it.destinationDir}")
+    }
   }
 }

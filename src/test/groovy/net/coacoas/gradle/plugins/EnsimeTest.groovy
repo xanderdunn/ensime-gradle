@@ -15,6 +15,7 @@ import static org.junit.Assert.assertThat
  *
  * &copy; Bill Carlson 2012
  */
+@Ignore
 public class EnsimeTest {
   @Test
   public void testTaskGetsAdded() {
