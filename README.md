@@ -31,7 +31,7 @@ To see the plugin in action you can also clone this repo and then run `gradle bu
 
 ## Next Steps
 
-Unknown.  Let me know if you are interested in anything else!
+At this point, I think it would be good to clean this up and get it added to the Gradle Plugin Repository.  If an issue exists keeping this from a 1.0 version, let me know so it can get fixed. 
 
 ## Updates
 
