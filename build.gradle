@@ -40,6 +40,13 @@ task groovydocJar(type: Jar, dependsOn: groovydoc) {
   from groovydoc.destinationDir
 }
 
+tasks.withType(JavaCompile) {
+  targetCompatibility = '1.6'
+  sourceCompatibility = '1.6'
+}   
+
+
+
 artifacts { 
   archives jar 
   archives sourcesJar
