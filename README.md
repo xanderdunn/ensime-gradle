@@ -32,3 +32,11 @@ To see the plugin in action you can also clone this repo and then run `gradle bu
 ## Next Steps
 
 Unknown.  Let me know if you are interested in anything else!
+
+## Updates
+
+### 0.11
+
+*  Thanks to rolandtritsch for this update!
+*  Fixes Issue #6: Generates .ensime files for Android development
+*  Back to supporting Java 6
