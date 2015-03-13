@@ -58,15 +58,14 @@ class EnsimeTask extends DefaultTask {
     project.logger.debug("EnsimeTask: Writing cache-dir: ${ensimeCacheDir}")
 
     // (project) name ...
-    assert !project.name.empty, "(project) name must be not empty"
+    assert !project.name.empty, "project.name must be not empty"
     properties.put("name", project.name)
     project.logger.debug("EnsimeTask: Writing name: ${project.name}")
 
     // java-home ...
-    if(!project.extensions.ensime.javaHome.empty) {
-      properties.put("java-home", project.extensions.ensime.javaHome)
-      project.logger.debug("EnsimeTask: Writing java-home: ${project.extensions.ensime.javaHome}")
-    }
+    assert !project.extensions.ensime.javaHome.empty, "ensime.javaHome must be not empty"
+    properties.put("java-home", project.extensions.ensime.javaHome)
+    project.logger.debug("EnsimeTask: Writing java-home: ${project.extensions.ensime.javaHome}")
 
     // java-flags ...
     if(project.extensions.ensime.javaFlags.size() > 0) {
