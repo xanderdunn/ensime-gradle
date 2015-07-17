@@ -1,4 +1,5 @@
 # Gradle ENSIME Plugin
+[![Build Status](https://travis-ci.org/coacoas/gradle-ensime.svg)](https://travis-ci.org/coacoas/gradle-ensime)
 
 ## Purposes
 
