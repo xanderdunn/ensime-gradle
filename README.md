@@ -24,6 +24,12 @@ To use the plugin, make sure that the jar file is loaded in the buildscript clas
     }
     apply plugin: 'ensime'
 
+You will also need to specify the version of Scala that you're using:
+
+    ext {
+        scalaLibraryVersion = "2.11.7"
+    }
+
 The plugin adds the 'ensime' task to the project to create a .ensime file in the project directory.
 
     ./gradlew ensime
